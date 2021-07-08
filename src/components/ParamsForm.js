@@ -24,32 +24,45 @@ const ParamsContainer =styled.div`
 export default function ParamsForm({queryVariable,setQueryVariables}) {
     const classes=useStyles()
     const [businessCheked, setBusinessCheked] = useState(false);
-    const [filter,setFilter]=useState([]);
+    const [types,setTypes]=useState([]);
+    const [isDone,setIsDone]=useState("");
     const [ordering,setOrdering]=useState("DATE_ASC");
+
     const handleCheckBoxChange=(event)=>{
         setBusinessCheked(event.target.checked);
-        setFilter(event.target.checked?["Marketing","Communication"]:[]);
+        setTypes(event.target.checked?["Marketing","Communication"]:[]);
     }
 
-    const handleFilterChange=(event)=>{
-        setFilter([event.target.value]);
+    const handleTypesChange=(event)=>{
+        setTypes([event.target.value]);
         setBusinessCheked(false);
     }
 
-    const handleOrderrChange=(event)=>{
+    const handleOrderChange=(event)=>{
         setOrdering(event.target.value);
+    }
+    const handleIsdoneChange=(event)=>{
+        setIsDone(event.target.value);
+    }
+
+    const resetFilters=()=>{
+        setBusinessCheked(false);
+        setTypes([]);
+        setIsDone("");
     }
 
     useEffect(()=>{
-        setQueryVariables(
-            {
-                filters:filter.length>0? {
-                        ...queryVariable.filters,types: filter
-                    }:{},
-                orderBy:ordering
-            }
-        );
-    },[ordering,filter])
+        var temQueryVariables={
+            orderBy:ordering,
+            filters:{}
+        };
+        if(types.length>0 )
+            temQueryVariables.filters.types =types;
+        if(isDone!=="")
+            temQueryVariables.filters.isDone =isDone;
+        console.log(temQueryVariables)
+        setQueryVariables(temQueryVariables);
+    },[ordering,types,isDone])
 
 
     return (
@@ -66,13 +79,13 @@ export default function ParamsForm({queryVariable,setQueryVariables}) {
                     label="only Business"       
                 />
                 <FormControl  >
-                    <InputLabel id="demo-customized-select-label">Filter</InputLabel>
+                    <InputLabel id="demo-customized-select-label">Types</InputLabel>
                     <Select
                         className={classes.select}
                         labelId="demo-customized-select-label"
                         id="demo-customized-select"
-                        value={filter}
-                        onChange={handleFilterChange}
+                        value={types}
+                        onChange={handleTypesChange}
                     >
                         <MenuItem value="" disabled>
                             <em>Filter</em>
@@ -84,13 +97,13 @@ export default function ParamsForm({queryVariable,setQueryVariables}) {
                     </Select>
                 </FormControl>
                 <FormControl >
-                    <InputLabel id="demo-customized-select-label">Ordre chronologique</InputLabel>
+                    <InputLabel id="demo-customized-select-label">Ordre </InputLabel>
                     <Select
                         className={classes.select}
                         labelId="demo-customized-select-label"
                         id="demo-customized-select"
-                        value={filter}
-                        onChange={handleOrderrChange}
+                        value={ordering}
+                        onChange={handleOrderChange}
                     >
                         <MenuItem value="" disabled>
                             <em>ordre</em>
@@ -99,7 +112,23 @@ export default function ParamsForm({queryVariable,setQueryVariables}) {
                         <MenuItem value="DATE_DESC"> descendant</MenuItem>
                     </Select>
                 </FormControl>
-                    
+                <FormControl >
+                    <InputLabel id="demo-customized-select-label">Status </InputLabel>
+                    <Select
+                        className={classes.select}
+                        labelId="demo-customized-select-label"
+                        id="demo-customized-select"
+                        value={isDone}
+                        onChange={handleIsdoneChange}
+                    >
+                        <MenuItem value="" disabled>
+                            <em>status</em>
+                        </MenuItem>
+                        <MenuItem value={true}> fait</MenuItem>
+                        <MenuItem value={false}> pas fait</MenuItem>
+                    </Select>
+                </FormControl>   
+                <button onClick={resetFilters}>Réinitialiser</button>
             </ParamsContainer >
     )
 }

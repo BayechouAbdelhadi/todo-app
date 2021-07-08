@@ -3,10 +3,11 @@ import { useLocation,useHistory } from "react-router-dom";
 import {GET_TODO_BY_ID} from "../graphql/queries"
 import {useQuery} from "@apollo/client";
 import styled from '@emotion/styled'
-import { formatDate } from '../utils';
 import Button from '@material-ui/core/Button';
 
-
+const Span = styled.span`
+  font-weight: bold;
+`
 const Container = styled.div`
   width: 350px;
   font-size: 24px;
@@ -14,10 +15,10 @@ const Container = styled.div`
   border: solid 3px brown;
   border-radius: 20px;
   padding:10px;
-  text-align: center;
+  text-align: left;
   color: black;
   margin:0 auto;
-  font-weight: bold;
+  margin-top:20px;
 `
 export default function ToDoDetails() {
     const history=useHistory();
@@ -45,10 +46,11 @@ export default function ToDoDetails() {
                 
                 {todo && 
                     <>
-                    <p>{todo.title}</p>
-                    <p>{todo.type }</p>
-                    <p>{todo.text }</p>
-                    <p>{formatDate (todo.createdAt)}</p>
+                        <p><Span>Titre: </Span>{todo.title}</p>
+                        <p><Span>type: </Span>{todo.type }</p>
+                        <p><Span>Description: </Span>{todo.text }</p>
+                        <p><Span>Date: </Span>{new Date(todo.createdAt).toLocaleDateString()}</p>
+                        <p><Span>Heure: </Span>{new Date(todo.createdAt).toLocaleTimeString()}</p>
                     </>
                 } 
             </Container>

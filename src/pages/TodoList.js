@@ -23,11 +23,11 @@ export default function TodoList() {
     const [todos,setTodos]=useState([]);
     const [queryVariable,setQueryVariables]=useState({filters:[],orderBy:"DATE_ASC"});
     const { loading, error, data } = useQuery(GET_TODOS, {
-        variables:queryVariable// { filters:{},orderBy:"DATE_DESC" },
+        variables:queryVariable
     });
     useEffect(() => {
         data && setTodos(data.getTodoList);
-    }, [data])
+    }, [data,queryVariable])
 
     return (
         <RootContainer>

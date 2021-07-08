@@ -1,7 +1,7 @@
 import {gql} from "@apollo/client";
 
 const UPDATE_TODO_STATUS_BY_ID = gql`
-query updateTodoStatusById($id: ID $isDone: Boolean){
+mutation updateTodoStatusById($id: ID! $isDone: Boolean!){
     updateTodoStatusById(id:$id isDone:$isDone) {
     id
     title
@@ -12,3 +12,4 @@ query updateTodoStatusById($id: ID $isDone: Boolean){
   }
 }
 `;
+export {UPDATE_TODO_STATUS_BY_ID} ;

@@ -7,6 +7,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Button from '@material-ui/core/Button';
+
 
 const useStyles = makeStyles({
     select :{
@@ -128,7 +130,13 @@ export default function ParamsForm({queryVariable,setQueryVariables}) {
                         <MenuItem value={false}> pas fait</MenuItem>
                     </Select>
                 </FormControl>   
-                <button onClick={resetFilters}>Réinitialiser</button>
+                <Button 
+                    onClick={resetFilters}
+                    color="primary"
+                    variant="contained"
+                >
+                    Réinitialiser
+                </Button>
             </ParamsContainer >
     )
 }

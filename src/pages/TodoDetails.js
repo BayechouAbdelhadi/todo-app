@@ -1,9 +1,11 @@
 import React,{useEffect,useState} from 'react'
-import { useLocation } from "react-router-dom";
+import { useLocation,useHistory } from "react-router-dom";
 import {GET_TODO_BY_ID} from "../graphql/queries"
 import {useQuery} from "@apollo/client";
 import styled from '@emotion/styled'
 import { formatDate } from '../utils';
+import Button from '@material-ui/core/Button';
+
 
 const Container = styled.div`
   width: 350px;
@@ -18,7 +20,7 @@ const Container = styled.div`
   font-weight: bold;
 `
 export default function ToDoDetails() {
-
+    const history=useHistory();
     const location =useLocation();
     const id = location.state.id;
     const [todo,setTodo]=useState();
@@ -29,16 +31,27 @@ export default function ToDoDetails() {
     useEffect(() => {
        data && setTodo(data.getTodoById);
     }, [data])
+    const redirect =()=>history.push("/")
     return (
-        <Container>
-            {todo && 
-                <>
-                <p>{todo.title}</p>
-                <p>{todo.type }</p>
-                <p>{todo.text }</p>
-                <p>{formatDate (todo.createdAt)}</p>
-                </>
-            } 
-        </Container>
+        <div> 
+            <Button 
+                variant="contained" 
+                color="secondary"
+                onClick={redirect}
+            > 
+                revenir en errière
+            </Button>
+            <Container>
+                
+                {todo && 
+                    <>
+                    <p>{todo.title}</p>
+                    <p>{todo.type }</p>
+                    <p>{todo.text }</p>
+                    <p>{formatDate (todo.createdAt)}</p>
+                    </>
+                } 
+            </Container>
+        </div>
     )
 }

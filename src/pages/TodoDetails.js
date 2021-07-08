@@ -5,7 +5,6 @@ import {useQuery} from "@apollo/client";
 import styled from '@emotion/styled'
 import { formatDate } from '../utils';
 
-
 const Container = styled.div`
   width: 350px;
   font-size: 24px;
@@ -39,8 +38,7 @@ export default function ToDoDetails() {
                 <p>{todo.text }</p>
                 <p>{formatDate (todo.createdAt)}</p>
                 </>
-            }
-            
+            } 
         </Container>
     )
 }
